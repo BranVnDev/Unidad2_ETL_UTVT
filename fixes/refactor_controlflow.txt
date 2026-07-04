@@ -1,0 +1,4 @@
+Refactor: reorganizacion del Control Flow
+- Se agruparon las tareas en Sequence Containers
+- Separacion logica de validacion, carga, archivado y compresion
+- Mejora en la legibilidad del paquete orquestador
