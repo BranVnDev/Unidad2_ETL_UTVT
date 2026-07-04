@@ -6,16 +6,13 @@ bin/
 obj/
 *.ispac
 *.suo
-*.slnx
 *.user
 
 # SQL
 *.sql
 
 # Data
-data/entrada/
 data/procesados/
-data/errores/
 
 # Windows
 Thumbs.db
