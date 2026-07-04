@@ -1,0 +1,19 @@
+Release 1.0 - Proyecto ETL UTVT
+===============================
+Fecha: 2026-07-04
+
+Cambios incluidos:
+- Implementacion de carga de dimension Clientes
+- Implementacion de carga de dimension Productos
+- Implementacion de carga de tabla de hechos FactVentas
+- Validacion de calidad de datos (duplicados, nulos, inactivos, formatos)
+- Calculo de metricas (Subtotal, IVA, Total)
+- Manejo de errores con redireccion a Errores.csv y LogErrores
+- Automatizacion con compresion ZIP via PowerShell
+- Logging de ejecucion en LogProceso
+- Documentacion completa
+
+Notas:
+- Base de datos destino: DWUTVTVentas
+- Servidor SQL: configurable via conexion OLEDB
+- Rutas de archivos: configurables via variables SSIS
