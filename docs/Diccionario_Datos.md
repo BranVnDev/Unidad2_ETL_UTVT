@@ -12,3 +12,13 @@
 - Pais: VARCHAR(100)
 - FechaRegistro: DATE
 - FechaCarga: DATETIME
+
+
+## DimProducto
+- IdProductoSK: INT IDENTITY PK
+- IdProductoOrigen: INT NOT NULL
+- NombreProducto: VARCHAR(150)
+- Categoria: VARCHAR(100)
+- Precio: DECIMAL(12,2)
+- Costo: DECIMAL(12,2)
+- FechaCarga: DATETIME
