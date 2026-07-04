@@ -1,0 +1,28 @@
+# SSIS
+*.dtproj.user
+*.database
+.vs/
+bin/
+obj/
+*.ispac
+*.suo
+*.slnx
+*.user
+
+# SQL
+*.sql
+
+# Data
+data/entrada/
+data/procesados/
+data/errores/
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Build
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
