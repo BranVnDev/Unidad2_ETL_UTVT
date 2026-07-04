@@ -45,3 +45,17 @@ El paquete orquestador `CargaVentas.dtsx` ejecuta el siguiente flujo:
 
 ## Autor
 BranVnDev
+
+
+## Instrucciones de Ejecucion
+1. Ejecutar database/create_DWUTVTVentas.sql en SQL Server
+2. Colocar archivos CSV en data/entrada/
+3. Abrir CargaVentas.dtsx en SSDT
+4. Configurar conexion a SQL Server
+5. Ejecutar el paquete
+
+## Evidencias
+- Las capturas de ejecucion estan en evidencias/
+- Los errores se registran en data/errores/Errores.csv
+- Los archivos procesados se comprimen en data/procesados/
+
