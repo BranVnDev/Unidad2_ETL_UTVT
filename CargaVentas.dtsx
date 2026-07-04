@@ -1,0 +1,765 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="7/3/2026 10:36:05 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="GALICIA"
+  DTS:CreatorName="GALICIA\CodexSandboxOffline"
+  DTS:DelayValidation="True"
+  DTS:Description="Orquestador: valida, registra, carga dimensiones/hechos, archiva y comprime"
+  DTS:DTSID="{5816CFBA-02E3-4C2D-90A9-FF1E632E629B}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="17.0.1016.0"
+  DTS:LocaleID="2058"
+  DTS:MaxErrorCount="0"
+  DTS:ObjectName="CargaVentas"
+  DTS:VersionBuild="3"
+  DTS:VersionGUID="{162A1379-392F-486A-9D41-7CE5FF08513E}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[CM_FILE_Entrada_Clientes]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{BF64CF70-27E9-43B6-A9E9-EC3902F7B460}"
+      DTS:ObjectName="CM_FILE_Entrada_Clientes">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::RutaEntrada] + "Clientes.csv"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="C:\Unidad2\data\entrada\Clientes.csv" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[CM_FILE_Entrada_Productos]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{15CEC606-56DD-4364-AC7B-D21B46B2B6E1}"
+      DTS:ObjectName="CM_FILE_Entrada_Productos">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::RutaEntrada] + "Productos.csv"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="C:\Unidad2\data\entrada\Productos.csv" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[CM_FILE_Entrada_Ventas]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{773D5221-BCDA-424A-ACAE-E591D126C34B}"
+      DTS:ObjectName="CM_FILE_Entrada_Ventas">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::RutaEntrada] + "Ventas.csv"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="C:\Unidad2\data\entrada\Ventas.csv" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[CM_FILE_Procesados_Clientes]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{A09729AE-D076-4816-A162-508EF7400191}"
+      DTS:ObjectName="CM_FILE_Procesados_Clientes">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::RutaProcesados] + "Clientes.csv"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="C:\Unidad2\data\procesados\Clientes.csv" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[CM_FILE_Procesados_Productos]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{5BDCAE9C-B335-4D77-98A3-176D72D2D437}"
+      DTS:ObjectName="CM_FILE_Procesados_Productos">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::RutaProcesados] + "Productos.csv"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="C:\Unidad2\data\procesados\Productos.csv" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[CM_FILE_Procesados_Ventas]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{6781895A-5255-4C7E-81FB-1FC6540FEB84}"
+      DTS:ObjectName="CM_FILE_Procesados_Ventas">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::RutaProcesados] + "Ventas.csv"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="C:\Unidad2\data\procesados\Ventas.csv" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[CM_SQL_Galicia_DWUTVTVentas]"
+      DTS:CreationName="OLEDB"
+      DTS:Description="Windows Authentication: Galicia / DWUTVTVentas"
+      DTS:DTSID="{1826EAED-2C79-4BFF-BAFF-B26657CD80FF}"
+      DTS:ObjectName="CM_SQL_Galicia_DWUTVTVentas">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=Galicia;Initial Catalog=DWUTVTVentas;Provider=SQLOLEDB.1;Integrated Security=SSPI;Persist Security Info=False;Connect Timeout=15;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{6DCA3680-06A5-4FF3-ACE7-63054629CDD4}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="FechaProceso">
+      <DTS:VariableValue
+        DTS:DataType="7">7/3/2026 10:36:05 AM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{1E34902E-47E2-447B-8393-9C53F827AE2B}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="IdProceso">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{9A8DE455-3ACF-4476-834A-ED3032D5F969}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="RutaEntrada">
+      <DTS:VariableValue
+        DTS:DataType="8">C:\Unidad2\data\entrada\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{AFDE80AB-85D2-46BB-AADB-0E76D423CAE2}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="RutaErrores">
+      <DTS:VariableValue
+        DTS:DataType="8">C:\Unidad2\data\errores\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{D0A6424C-F2DF-4006-BAC3-25F72985F761}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="RutaProcesados">
+      <DTS:VariableValue
+        DTS:DataType="8">C:\Unidad2\data\procesados\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{DE74FBDA-826B-4E76-9F9C-511D661A82A8}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="TotalErrores">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{3C603DC3-F53F-4A0B-9060-E611533CA21D}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="TotalInsertados">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{98C194B1-E9E7-477A-ADF6-87733FFA7E1D}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="TotalLeidos">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\SEQ Proceso ETL Ventas"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Flujo completo y ordenado de la carga de ventas"
+      DTS:DTSID="{2A88D0C9-245F-4464-ACAC-B877E679CB5A}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SEQ Proceso ETL Ventas">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SEQ Proceso ETL Ventas\Comprimir archivos procesados"
+          DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteProcess.ExecuteProcess, Microsoft.SqlServer.ExecProcTask, Version=17.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:DelayValidation="True"
+          DTS:Description="Comprimir archivos procesados"
+          DTS:DTSID="{0E6D9CBC-53C6-4586-A3E2-2278A148A8D4}"
+          DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteProcess.ExecuteProcess, Microsoft.SqlServer.ExecProcTask, Version=17.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Comprimir archivos procesados"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecuteProcessData
+              Executable="PowerShell.exe"
+              Arguments="-NoProfile -ExecutionPolicy Bypass -Command &quot;&amp; { $s=Get-Date -Format 'yyyyMMdd_HHmmss'; $z=Join-Path 'C:\Unidad2\data\procesados' ('Procesados_'+$s+'.zip'); Compress-Archive -LiteralPath 'C:\Unidad2\data\procesados\Clientes.csv','C:\Unidad2\data\procesados\Productos.csv','C:\Unidad2\data\procesados\Ventas.csv' -DestinationPath $z -Force }&quot;"
+              WorkingDirectory="C:\Unidad2" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQ Proceso ETL Ventas\Ejecutar CargaClientes"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:DelayValidation="True"
+          DTS:Description="Ejecuta CargaClientes.dtsx mediante referencia de proyecto"
+          DTS:DTSID="{A54032B6-E56E-4465-8E47-BEC6CA078378}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Ejecutar CargaClientes"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>CargaClientes.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQ Proceso ETL Ventas\Ejecutar CargaFactVentas"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:DelayValidation="True"
+          DTS:Description="Ejecuta CargaFactVentas.dtsx mediante referencia de proyecto"
+          DTS:DTSID="{36BEBC98-1B0B-4CB8-B34B-3FD039DA1A5B}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Ejecutar CargaFactVentas"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>CargaFactVentas.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQ Proceso ETL Ventas\Ejecutar CargaProductos"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:DelayValidation="True"
+          DTS:Description="Ejecuta CargaProductos.dtsx mediante referencia de proyecto"
+          DTS:DTSID="{9B0C21CB-0BC7-4FCA-9307-7CE21A7940E7}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Ejecutar CargaProductos"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>CargaProductos.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQ Proceso ETL Ventas\Fin - registrar estatus completado"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:DelayValidation="True"
+          DTS:Description="Fin - registrar estatus completado"
+          DTS:DTSID="{A3178ACB-7555-4CBE-8141-1962DC9C3782}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Fin - registrar estatus completado"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{1826EAED-2C79-4BFF-BAFF-B26657CD80FF}"
+              SQLTask:SqlStatementSource="DECLARE @Id int=(SELECT MAX(IdProceso) FROM dbo.LogProceso WHERE NombrePaquete='CargaVentas'); UPDATE dbo.LogProceso SET FechaFin=GETDATE(),DuracionSegundos=DATEDIFF(SECOND,FechaInicio,GETDATE()),Estatus='COMPLETADO',Mensaje='ETL, movimiento y compresion completados' WHERE IdProceso=@Id;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQ Proceso ETL Ventas\Mover Clientes CSV"
+          DTS:CreationName="Microsoft.FileSystemTask"
+          DTS:DelayValidation="True"
+          DTS:DTSID="{D030DBBE-EDC0-41A2-A044-1395B983E1F9}"
+          DTS:ExecutableType="Microsoft.FileSystemTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Mover Clientes CSV"
+          DTS:TaskContact="File System Task;Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <FileSystemData
+              TaskOperationType="MoveFile"
+              TaskOverwriteDestFile="True"
+              TaskSourcePath="{BF64CF70-27E9-43B6-A9E9-EC3902F7B460}"
+              TaskDestinationPath="{A09729AE-D076-4816-A162-508EF7400191}" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQ Proceso ETL Ventas\Mover Productos CSV"
+          DTS:CreationName="Microsoft.FileSystemTask"
+          DTS:DelayValidation="True"
+          DTS:DTSID="{20D37250-8000-482F-B13E-ADB869380C7A}"
+          DTS:ExecutableType="Microsoft.FileSystemTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Mover Productos CSV"
+          DTS:TaskContact="File System Task;Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <FileSystemData
+              TaskOperationType="MoveFile"
+              TaskOverwriteDestFile="True"
+              TaskSourcePath="{15CEC606-56DD-4364-AC7B-D21B46B2B6E1}"
+              TaskDestinationPath="{5BDCAE9C-B335-4D77-98A3-176D72D2D437}" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQ Proceso ETL Ventas\Mover Ventas CSV"
+          DTS:CreationName="Microsoft.FileSystemTask"
+          DTS:DelayValidation="True"
+          DTS:DTSID="{BB4C4024-8ABA-40EF-98AC-DA92CCC1DF8C}"
+          DTS:ExecutableType="Microsoft.FileSystemTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Mover Ventas CSV"
+          DTS:TaskContact="File System Task;Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <FileSystemData
+              TaskOperationType="MoveFile"
+              TaskOverwriteDestFile="True"
+              TaskSourcePath="{773D5221-BCDA-424A-ACAE-E591D126C34B}"
+              TaskDestinationPath="{6781895A-5255-4C7E-81FB-1FC6540FEB84}" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQ Proceso ETL Ventas\Registrar estadisticas finales"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:DelayValidation="True"
+          DTS:Description="Registrar estadisticas finales"
+          DTS:DTSID="{6A65F1B1-80E7-4D0A-96DC-1E972CF12DC7}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Registrar estadisticas finales"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{1826EAED-2C79-4BFF-BAFF-B26657CD80FF}"
+              SQLTask:SqlStatementSource="DECLARE @IdProceso int=(SELECT MAX(IdProceso) FROM dbo.LogProceso WHERE NombrePaquete='CargaVentas');&#xA;DECLARE @Inicio datetime=(SELECT FechaInicio FROM dbo.LogProceso WHERE IdProceso=@IdProceso);&#xA;DECLARE @Insertados int=(SELECT COUNT(*) FROM dbo.DimCliente WHERE FechaCarga&gt;=@Inicio)+(SELECT COUNT(*) FROM dbo.DimProducto WHERE FechaCarga&gt;=@Inicio)+(SELECT COUNT(*) FROM dbo.FactVentas WHERE FechaCarga&gt;=@Inicio);&#xA;DECLARE @Errores int=(SELECT COUNT(*) FROM dbo.LogErrores WHERE FechaError&gt;=@Inicio);&#xA;DECLARE @Leidos int=@Insertados+@Errores;&#xA;BEGIN TRY&#xA; SELECT @Leidos=(LEN(BulkColumn)-LEN(REPLACE(BulkColumn,CHAR(10),''))-1) FROM OPENROWSET(BULK 'C:\Unidad2\data\entrada\Clientes.csv',SINGLE_CLOB) C;&#xA; SELECT @Leidos=@Leidos+(LEN(BulkColumn)-LEN(REPLACE(BulkColumn,CHAR(10),''))-1) FROM OPENROWSET(BULK 'C:\Unidad2\data\entrada\Productos.csv',SINGLE_CLOB) P;&#xA; SELECT @Leidos=@Leidos+(LEN(BulkColumn)-LEN(REPLACE(BulkColumn,CHAR(10),''))-1) FROM OPENROWSET(BULK 'C:\Unidad2\data\entrada\Ventas.csv',SINGLE_CLOB) V;&#xA;END TRY BEGIN CATCH SET @Leidos=@Insertados+@Errores; END CATCH;&#xA;UPDATE dbo.LogProceso SET TotalLeidos=@Leidos,TotalInsertados=@Insertados,TotalErrores=@Errores,Mensaje='Carga terminada; pendiente archivado' WHERE IdProceso=@IdProceso;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQ Proceso ETL Ventas\Registrar inicio en LogProceso"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:DelayValidation="True"
+          DTS:Description="Registrar inicio en LogProceso"
+          DTS:DTSID="{11834753-A18C-456A-9365-BC3844C8FD61}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Registrar inicio en LogProceso"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{1826EAED-2C79-4BFF-BAFF-B26657CD80FF}"
+              SQLTask:SqlStatementSource="INSERT INTO dbo.LogProceso (NombrePaquete,FechaInicio,Estatus,Mensaje) VALUES ('CargaVentas',GETDATE(),'EN PROCESO','Archivos validados; inicia ETL');" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\SEQ Proceso ETL Ventas\Validar existencia de archivos"
+          DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteProcess.ExecuteProcess, Microsoft.SqlServer.ExecProcTask, Version=17.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:DelayValidation="True"
+          DTS:Description="Validar existencia de archivos"
+          DTS:DTSID="{02AB0075-F6CB-483D-8AD9-428CA70D2D6F}"
+          DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteProcess.ExecuteProcess, Microsoft.SqlServer.ExecProcTask, Version=17.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Validar existencia de archivos"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecuteProcessData
+              Executable="PowerShell.exe"
+              Arguments="-NoProfile -ExecutionPolicy Bypass -Command &quot;&amp; { $f=@('C:\Unidad2\data\entrada\Clientes.csv','C:\Unidad2\data\entrada\Productos.csv','C:\Unidad2\data\entrada\Ventas.csv'); $m=@($f | Where-Object { -not (Test-Path -LiteralPath $_) }); if($m.Count -gt 0){ Write-Error ('Faltan archivos: ' + ($m -join ', ')); exit 2 } }&quot;"
+              WorkingDirectory="C:\Unidad2" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQ Proceso ETL Ventas.PrecedenceConstraints[{1CA246C5-0F45-4C2A-9F19-FB7BFEC80529\}]"
+          DTS:CreationName=""
+          DTS:DTSID="{1CA246C5-0F45-4C2A-9F19-FB7BFEC80529}"
+          DTS:From="Package\SEQ Proceso ETL Ventas\Mover Productos CSV"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="{1CA246C5-0F45-4C2A-9F19-FB7BFEC80529}"
+          DTS:To="Package\SEQ Proceso ETL Ventas\Mover Ventas CSV" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQ Proceso ETL Ventas.PrecedenceConstraints[{20A7EC31-6357-4850-952C-FFC09BE97583\}]"
+          DTS:CreationName=""
+          DTS:DTSID="{20A7EC31-6357-4850-952C-FFC09BE97583}"
+          DTS:From="Package\SEQ Proceso ETL Ventas\Validar existencia de archivos"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="{20A7EC31-6357-4850-952C-FFC09BE97583}"
+          DTS:To="Package\SEQ Proceso ETL Ventas\Registrar inicio en LogProceso" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQ Proceso ETL Ventas.PrecedenceConstraints[{21353A9F-E941-4F0C-ADCE-C38FD3F855DA\}]"
+          DTS:CreationName=""
+          DTS:DTSID="{21353A9F-E941-4F0C-ADCE-C38FD3F855DA}"
+          DTS:From="Package\SEQ Proceso ETL Ventas\Mover Clientes CSV"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="{21353A9F-E941-4F0C-ADCE-C38FD3F855DA}"
+          DTS:To="Package\SEQ Proceso ETL Ventas\Mover Productos CSV" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQ Proceso ETL Ventas.PrecedenceConstraints[{2886CDF1-A9DD-40B3-97D5-052D1BAC1449\}]"
+          DTS:CreationName=""
+          DTS:DTSID="{2886CDF1-A9DD-40B3-97D5-052D1BAC1449}"
+          DTS:From="Package\SEQ Proceso ETL Ventas\Ejecutar CargaClientes"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="{2886CDF1-A9DD-40B3-97D5-052D1BAC1449}"
+          DTS:To="Package\SEQ Proceso ETL Ventas\Ejecutar CargaProductos" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQ Proceso ETL Ventas.PrecedenceConstraints[{426EA652-63EE-4347-9092-E28E32F280AD\}]"
+          DTS:CreationName=""
+          DTS:DTSID="{426EA652-63EE-4347-9092-E28E32F280AD}"
+          DTS:From="Package\SEQ Proceso ETL Ventas\Comprimir archivos procesados"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="{426EA652-63EE-4347-9092-E28E32F280AD}"
+          DTS:To="Package\SEQ Proceso ETL Ventas\Fin - registrar estatus completado" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQ Proceso ETL Ventas.PrecedenceConstraints[{65C74AAB-0A7B-459A-A491-04F9246130BD\}]"
+          DTS:CreationName=""
+          DTS:DTSID="{65C74AAB-0A7B-459A-A491-04F9246130BD}"
+          DTS:From="Package\SEQ Proceso ETL Ventas\Registrar inicio en LogProceso"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="{65C74AAB-0A7B-459A-A491-04F9246130BD}"
+          DTS:To="Package\SEQ Proceso ETL Ventas\Ejecutar CargaClientes" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQ Proceso ETL Ventas.PrecedenceConstraints[{670DCA4B-497B-4610-8730-7D6A160F691E\}]"
+          DTS:CreationName=""
+          DTS:DTSID="{670DCA4B-497B-4610-8730-7D6A160F691E}"
+          DTS:From="Package\SEQ Proceso ETL Ventas\Mover Ventas CSV"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="{670DCA4B-497B-4610-8730-7D6A160F691E}"
+          DTS:To="Package\SEQ Proceso ETL Ventas\Comprimir archivos procesados" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQ Proceso ETL Ventas.PrecedenceConstraints[{8B63D4BD-F465-4CF7-AE15-A23CAE71F22E\}]"
+          DTS:CreationName=""
+          DTS:DTSID="{8B63D4BD-F465-4CF7-AE15-A23CAE71F22E}"
+          DTS:From="Package\SEQ Proceso ETL Ventas\Registrar estadisticas finales"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="{8B63D4BD-F465-4CF7-AE15-A23CAE71F22E}"
+          DTS:To="Package\SEQ Proceso ETL Ventas\Mover Clientes CSV" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQ Proceso ETL Ventas.PrecedenceConstraints[{ACE735C8-1661-4646-8AB3-9FC38FF44FD9\}]"
+          DTS:CreationName=""
+          DTS:DTSID="{ACE735C8-1661-4646-8AB3-9FC38FF44FD9}"
+          DTS:From="Package\SEQ Proceso ETL Ventas\Ejecutar CargaFactVentas"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="{ACE735C8-1661-4646-8AB3-9FC38FF44FD9}"
+          DTS:To="Package\SEQ Proceso ETL Ventas\Registrar estadisticas finales" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\SEQ Proceso ETL Ventas.PrecedenceConstraints[{D5FF1A69-F808-463A-AEEE-8BA5B008327F\}]"
+          DTS:CreationName=""
+          DTS:DTSID="{D5FF1A69-F808-463A-AEEE-8BA5B008327F}"
+          DTS:From="Package\SEQ Proceso ETL Ventas\Ejecutar CargaProductos"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="{D5FF1A69-F808-463A-AEEE-8BA5B008327F}"
+          DTS:To="Package\SEQ Proceso ETL Ventas\Ejecutar CargaFactVentas" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Esta sección CDATA contiene la información de diseño del paquete. Esta sección incluye información como, por ejemplo, las coordenadas (x,y), el ancho y el alto.-->
+<!--Si edita manualmente esta sección y comete un error, puede eliminarlo. -->
+<!--El paquete podrá cargarse normalmente, pero se perderá la información de diseño anterior y el diseñador reorganizará los elementos automáticamente en la superficie de diseño.-->
+<Objects
+  Version="8">
+  <!--Cada uno de los nodos siguientes contiene propiedades que no afectan al comportamiento en tiempo de ejecución.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="226,42"
+          Id="Package\SEQ Proceso ETL Ventas\Comprimir archivos procesados"
+          TopLeft="11.5000000000001,923.5" />
+        <NodeLayout
+          Size="185,42"
+          Id="Package\SEQ Proceso ETL Ventas\Ejecutar CargaClientes"
+          TopLeft="32,209.5" />
+        <NodeLayout
+          Size="200,42"
+          Id="Package\SEQ Proceso ETL Ventas\Ejecutar CargaFactVentas"
+          TopLeft="24.5000000000001,413.5" />
+        <NodeLayout
+          Size="195,42"
+          Id="Package\SEQ Proceso ETL Ventas\Ejecutar CargaProductos"
+          TopLeft="27,311.5" />
+        <NodeLayout
+          Size="238,42"
+          Id="Package\SEQ Proceso ETL Ventas\Fin - registrar estatus completado"
+          TopLeft="5.50000000000013,1025.5" />
+        <NodeLayout
+          Size="170,42"
+          Id="Package\SEQ Proceso ETL Ventas\Mover Clientes CSV"
+          TopLeft="39.5000000000001,617.5" />
+        <NodeLayout
+          Size="180,42"
+          Id="Package\SEQ Proceso ETL Ventas\Mover Productos CSV"
+          TopLeft="34.5000000000001,719.5" />
+        <NodeLayout
+          Size="165,42"
+          Id="Package\SEQ Proceso ETL Ventas\Mover Ventas CSV"
+          TopLeft="42.0000000000001,821.5" />
+        <NodeLayout
+          Size="212,42"
+          Id="Package\SEQ Proceso ETL Ventas\Registrar estadisticas finales"
+          TopLeft="18.5000000000001,515.5" />
+        <NodeLayout
+          Size="220,42"
+          Id="Package\SEQ Proceso ETL Ventas\Registrar inicio en LogProceso"
+          TopLeft="14.5,107.5" />
+        <NodeLayout
+          Size="217,42"
+          Id="Package\SEQ Proceso ETL Ventas\Validar existencia de archivos"
+          TopLeft="16,5.5" />
+        <EdgeLayout
+          Id="Package\SEQ Proceso ETL Ventas.PrecedenceConstraints[{1CA246C5-0F45-4C2A-9F19-FB7BFEC80529\}]"
+          TopLeft="124.5,761.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQ Proceso ETL Ventas.PrecedenceConstraints[{20A7EC31-6357-4850-952C-FFC09BE97583\}]"
+          TopLeft="124.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQ Proceso ETL Ventas.PrecedenceConstraints[{21353A9F-E941-4F0C-ADCE-C38FD3F855DA\}]"
+          TopLeft="124.5,659.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQ Proceso ETL Ventas.PrecedenceConstraints[{2886CDF1-A9DD-40B3-97D5-052D1BAC1449\}]"
+          TopLeft="124.5,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQ Proceso ETL Ventas.PrecedenceConstraints[{426EA652-63EE-4347-9092-E28E32F280AD\}]"
+          TopLeft="124.5,965.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQ Proceso ETL Ventas.PrecedenceConstraints[{65C74AAB-0A7B-459A-A491-04F9246130BD\}]"
+          TopLeft="124.5,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQ Proceso ETL Ventas.PrecedenceConstraints[{670DCA4B-497B-4610-8730-7D6A160F691E\}]"
+          TopLeft="124.5,863.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQ Proceso ETL Ventas.PrecedenceConstraints[{8B63D4BD-F465-4CF7-AE15-A23CAE71F22E\}]"
+          TopLeft="124.5,557.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQ Proceso ETL Ventas.PrecedenceConstraints[{ACE735C8-1661-4646-8AB3-9FC38FF44FD9\}]"
+          TopLeft="124.5,455.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SEQ Proceso ETL Ventas.PrecedenceConstraints[{D5FF1A69-F808-463A-AEEE-8BA5B008327F\}]"
+          TopLeft="124.5,353.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="249,1123"
+          Size="249,1166"
+          Id="Package\SEQ Proceso ETL Ventas"
+          TopLeft="5.50000000000011,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
