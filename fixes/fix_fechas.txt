@@ -1,0 +1,3 @@
+Correccion: validacion de fechas invalidas en CargaClientes.dtsx
+- Se agrego Conditional Split para rechazar fechas con formato incorrecto
+- Fechas invalidas redirigidas a Errores.csv
